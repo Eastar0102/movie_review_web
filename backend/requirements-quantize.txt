@@ -1,0 +1,10 @@
+# 모델 경량화 파이프라인 전용 (scripts/quantize_onnx.py).
+# 변환은 로컬에서 한 번만 수행하고 결과물(backend/models/onnx-int8)만 커밋하므로
+# 배포 환경에는 설치하지 않는다.
+#
+#   pip install -r requirements-quantize.txt
+#   python scripts/quantize_onnx.py
+
+torch==2.5.1
+transformers==4.46.3
+optimum[onnxruntime]==2.1.0

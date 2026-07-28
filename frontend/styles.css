@@ -1,0 +1,271 @@
+/* ==========================================================================
+   영화 리뷰 & 감성 분석 — Streamlit 커스텀 테마
+   (색·간격 토큰을 여기서만 바꾸면 전체 화면에 반영된다)
+   ========================================================================== */
+@import url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard-dynamic-subset.css');
+
+:root {
+  --bg: #0b0d12;
+  --surface: #151822;
+  --surface-2: #1b1f2b;
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #e8eaf0;
+  --muted: #98a1b3;
+  --gold: #f5c518;
+  --pos: #34d399;
+  --neg: #f87171;
+}
+
+html, body, .stApp, [class*="st-"] {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic',
+    'Apple SD Gothic Neo', system-ui, sans-serif;
+}
+
+.stApp {
+  background:
+    radial-gradient(1100px 520px at 12% -12%, rgba(245, 197, 24, 0.07) 0%, transparent 62%),
+    radial-gradient(900px 480px at 92% 0%, rgba(99, 102, 241, 0.10) 0%, transparent 58%),
+    var(--bg);
+}
+
+.block-container { padding-top: 2.4rem; padding-bottom: 4rem; max-width: 1280px; }
+
+/* ------------------------------------------------------------------ 사이드바 */
+section[data-testid="stSidebar"] {
+  background: #0e1119;
+  border-right: 1px solid var(--border);
+}
+.side-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.side-brand .logo {
+  width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center;
+  font-size: 1.15rem; background: linear-gradient(145deg, #2a2f3f, #171b26);
+  border: 1px solid rgba(245, 197, 24, 0.35);
+}
+.side-brand .name { font-weight: 800; font-size: 1rem; line-height: 1.2; }
+.side-brand .sub { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; }
+
+.side-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 13px; margin-bottom: 10px;
+}
+.side-box .row { display: flex; justify-content: space-between; gap: 10px; font-size: 0.78rem; padding: 3px 0; }
+.side-box .row .k { color: var(--muted); white-space: nowrap; }
+.side-box .row .v { font-weight: 600; text-align: right; word-break: break-all; }
+
+.status { display: inline-flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 600; }
+.status .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.status.ok { color: var(--pos); } .status.ok .dot { background: var(--pos); box-shadow: 0 0 8px var(--pos); }
+.status.ng { color: var(--neg); } .status.ng .dot { background: var(--neg); box-shadow: 0 0 8px var(--neg); }
+
+/* ------------------------------------------------------------------ 히어로 */
+.hero { margin-bottom: 6px; }
+.hero .eyebrow {
+  font-size: 0.68rem; font-weight: 800; letter-spacing: 0.2em;
+  color: var(--gold); text-transform: uppercase;
+}
+.hero h1 {
+  font-size: 2.25rem; font-weight: 800; letter-spacing: -0.03em;
+  margin: 6px 0 6px; line-height: 1.15;
+}
+.hero p { color: var(--muted); font-size: 0.93rem; margin: 0; line-height: 1.6; }
+
+/* ------------------------------------------------------------------ KPI 타일 */
+.kpi-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  gap: 12px; margin: 20px 0 4px;
+}
+.kpi {
+  background: linear-gradient(160deg, #171b26 0%, #12151e 100%);
+  border: 1px solid var(--border); border-radius: 14px; padding: 13px 16px;
+}
+.kpi .label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.03em; }
+.kpi .value { font-size: 1.45rem; font-weight: 800; margin-top: 3px; letter-spacing: -0.02em; }
+.kpi .value small { font-size: 0.78rem; color: var(--muted); font-weight: 500; margin-left: 3px; }
+
+/* ------------------------------------------------------------------ 섹션 제목 */
+.section-title {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 1rem; font-weight: 700; margin: 22px 0 12px;
+}
+.section-title .line { flex: 1; height: 1px; background: var(--border); }
+.section-title .count { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
+
+/* ------------------------------------------------------------------ 영화 카드 */
+.movie-card {
+  background: linear-gradient(165deg, #171b26 0%, #111420 100%);
+  border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.movie-card:hover {
+  transform: translateY(-3px); border-color: rgba(245, 197, 24, 0.45);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
+}
+.poster {
+  position: relative; aspect-ratio: 2 / 3; background-color: var(--surface-2);
+  background-size: cover; background-position: center;
+}
+.poster.empty {
+  background-image: linear-gradient(150deg, #232838 0%, #141824 100%);
+}
+.poster.empty::after {
+  content: "🎞"; position: absolute; inset: 0; display: flex;
+  align-items: center; justify-content: center; font-size: 2.2rem; opacity: 0.35;
+}
+.poster .badge {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(8, 10, 15, 0.82); color: var(--gold);
+  font-size: 0.74rem; font-weight: 800; padding: 4px 8px;
+  border-radius: 8px; border: 1px solid rgba(245, 197, 24, 0.32);
+}
+/* --- 카드 전체를 클릭 영역으로 (카드 위에 투명한 Streamlit 버튼을 겹친다) --- */
+div[data-testid="stColumn"]:has(.card-click) > div > div > div[data-testid="stVerticalBlock"] {
+  position: relative;
+}
+div[data-testid="stColumn"]:has(.card-click) div[data-testid="stElementContainer"]:has(.stButton) {
+  position: absolute; inset: 0; z-index: 2; margin: 0;
+}
+div[data-testid="stColumn"]:has(.card-click) .stButton,
+div[data-testid="stColumn"]:has(.card-click) .stButton > button {
+  width: 100%; height: 100%;
+}
+div[data-testid="stColumn"]:has(.card-click) .stButton > button {
+  opacity: 0; background: transparent; border: none; cursor: pointer; padding: 0;
+}
+/* 버튼이 카드를 덮으므로 hover/focus 반응은 셀 단위로 준다 */
+div[data-testid="stColumn"]:has(.card-click):hover .movie-card {
+  transform: translateY(-3px); border-color: rgba(245, 197, 24, 0.45);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
+}
+div[data-testid="stColumn"]:has(.card-click):focus-within .movie-card {
+  border-color: rgba(245, 197, 24, 0.7);
+}
+.card-click .poster::before {
+  content: "상세 · 리뷰 보기"; position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(8, 10, 15, 0.55); color: var(--gold);
+  font-size: 0.86rem; font-weight: 700; letter-spacing: -0.01em;
+  opacity: 0; transition: opacity 0.18s ease;
+}
+div[data-testid="stColumn"]:has(.card-click):hover .poster::before,
+div[data-testid="stColumn"]:has(.card-click):focus-within .poster::before { opacity: 1; }
+
+.card-body { padding: 12px 14px 14px; }
+.card-title {
+  font-weight: 700; font-size: 0.98rem; line-height: 1.32; height: 2.64em;
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.card-meta {
+  color: var(--muted); font-size: 0.77rem; margin-top: 5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.card-rating { display: flex; align-items: center; gap: 7px; margin-top: 9px; font-size: 0.82rem; }
+.card-rating b { font-weight: 700; }
+.card-rating .none { color: var(--muted); font-size: 0.77rem; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.chip {
+  font-size: 0.69rem; padding: 3px 8px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05); color: var(--muted); border: 1px solid var(--border);
+}
+.chip.pos { background: rgba(52, 211, 153, 0.12); color: var(--pos); border-color: rgba(52, 211, 153, 0.25); }
+.chip.neg { background: rgba(248, 113, 113, 0.12); color: var(--neg); border-color: rgba(248, 113, 113, 0.25); }
+.chip.gold { background: rgba(245, 197, 24, 0.12); color: var(--gold); border-color: rgba(245, 197, 24, 0.28); }
+
+/* ------------------------------------------------------------------ 별점 */
+.stars { position: relative; display: inline-block; white-space: nowrap; letter-spacing: 1.5px; }
+.stars .bg { color: #39404f; }
+.stars .fg {
+  position: absolute; left: 0; top: 0; overflow: hidden;
+  white-space: nowrap; color: var(--gold);
+}
+
+/* ------------------------------------------------------------------ 감성 배지 */
+.sent { font-size: 0.71rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.sent.pos { background: rgba(52, 211, 153, 0.14); color: var(--pos); }
+.sent.neg { background: rgba(248, 113, 113, 0.14); color: var(--neg); }
+.sent.na { background: rgba(255, 255, 255, 0.06); color: var(--muted); }
+
+/* ------------------------------------------------------------------ 게이지 */
+.gauge { height: 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.07); overflow: hidden; }
+.gauge > div { height: 100%; border-radius: 999px; }
+.gauge-label { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); margin: 6px 0 4px; }
+
+/* ------------------------------------------------------------------ 리뷰 아이템 */
+.review {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--muted); border-radius: 12px;
+  padding: 12px 14px; margin-bottom: 9px;
+}
+.review.pos { border-left-color: var(--pos); }
+.review.neg { border-left-color: var(--neg); }
+.review .head { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+.review .author { font-weight: 700; font-size: 0.87rem; }
+.review .date { font-size: 0.73rem; color: var(--muted); }
+.review .mid { font-size: 0.71rem; color: var(--muted); background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; }
+.review .body { margin-top: 8px; font-size: 0.9rem; line-height: 1.6; color: #d6dae4; }
+.review .spacer { flex: 1; }
+
+/* ------------------------------------------------------------------ 결과 패널 */
+.result-panel {
+  border-radius: 16px; padding: 18px 20px; border: 1px solid var(--border);
+  background: linear-gradient(150deg, #171b26, #12151e);
+}
+.result-panel.pos { border-color: rgba(52, 211, 153, 0.35); }
+.result-panel.neg { border-color: rgba(248, 113, 113, 0.35); }
+.result-panel .big { font-size: 1.55rem; font-weight: 800; letter-spacing: -0.02em; }
+.result-panel .sub { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
+
+/* ------------------------------------------------------------------ 안내 박스 */
+.empty-box {
+  border: 1px dashed var(--border); border-radius: 16px; padding: 42px 20px;
+  text-align: center; color: var(--muted); background: rgba(255, 255, 255, 0.015);
+}
+.empty-box .icon { font-size: 2rem; display: block; margin-bottom: 8px; opacity: 0.7; }
+
+/* ------------------------------------------------------------------ 위젯 */
+.stButton > button {
+  border-radius: 10px; border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04); font-weight: 600; font-size: 0.84rem;
+  transition: 0.15s ease;
+}
+.stButton > button:hover {
+  border-color: rgba(245, 197, 24, 0.5); color: var(--gold);
+  background: rgba(245, 197, 24, 0.08);
+}
+.stButton > button[kind="primary"], .stFormSubmitButton > button[kind="primary"] {
+  background: linear-gradient(120deg, #f5c518, #f0a500); color: #14161c;
+  border: none; font-weight: 800;
+}
+.stButton > button[kind="primary"]:hover, .stFormSubmitButton > button[kind="primary"]:hover {
+  filter: brightness(1.08); color: #14161c;
+}
+.stFormSubmitButton > button { border-radius: 10px; font-weight: 700; }
+
+div[data-testid="stForm"] {
+  border: 1px solid var(--border); border-radius: 16px;
+  padding: 18px 20px; background: rgba(255, 255, 255, 0.015);
+}
+
+/* 페이지 내비게이션 (라디오를 알약 모양 탭으로) */
+div[data-testid="stRadio"] > div[role="radiogroup"] { flex-direction: row; gap: 8px; flex-wrap: wrap; }
+div[data-testid="stRadio"] > div[role="radiogroup"] > label {
+  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border);
+  border-radius: 999px; padding: 7px 16px; margin: 0; transition: 0.15s ease;
+}
+div[data-testid="stRadio"] > div[role="radiogroup"] > label:hover {
+  border-color: rgba(245, 197, 24, 0.4); background: rgba(245, 197, 24, 0.06);
+}
+div[data-testid="stRadio"] > div[role="radiogroup"] > label > div:first-child { display: none; }
+div[data-testid="stRadio"] > div[role="radiogroup"] > label[data-checked="true"],
+div[data-testid="stRadio"] > div[role="radiogroup"] > label:has(input:checked) {
+  background: rgba(245, 197, 24, 0.14); border-color: rgba(245, 197, 24, 0.55);
+}
+div[data-testid="stRadio"] > div[role="radiogroup"] > label p { font-weight: 600; font-size: 0.87rem; }
+
+/* 입력 위젯 라운딩 */
+div[data-baseweb="input"], div[data-baseweb="select"] > div, .stTextArea textarea {
+  border-radius: 10px !important;
+}
+
+hr { border-color: var(--border); }

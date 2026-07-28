@@ -1,0 +1,13 @@
+# Streamlit은 실행 위치(저장소 루트)의 .streamlit/config.toml을 읽는다.
+# frontend/.streamlit/config.toml은 frontend 폴더에서 직접 실행할 때 쓰이므로 둘 다 유지한다.
+[theme]
+base = "dark"
+primaryColor = "#F5C518"
+backgroundColor = "#0B0D12"
+secondaryBackgroundColor = "#151822"
+textColor = "#E8EAF0"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = true

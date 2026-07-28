@@ -1,0 +1,19 @@
+# 백엔드 서빙 의존성. torch 없이 동작한다.
+
+# --- core ---
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+sqlalchemy==2.0.36
+pydantic==2.10.4
+
+# --- 감성 분석 서빙 (ONNX INT8) ---
+# backend/models/onnx-int8 을 그대로 로딩한다. tokenizer.json만 있으면 되므로
+# transformers도 필요 없다.
+onnxruntime==1.23.2
+tokenizers==0.20.3
+numpy==2.2.6
+
+# --- 데모 데이터 시드 스크립트 (scripts/seed_data.py) ---
+httpx==0.28.1
+
+# 모델 변환·양자화 도구는 requirements-quantize.txt 참고 (서빙에는 불필요).

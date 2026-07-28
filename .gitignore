@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.db
+*.db-journal
+# 배포 데모용 시드 DB는 커밋한다
+!backend/seed/movie.db
+.venv/
+venv/
+# 모델 산출물은 무시하되, 배포에 쓰는 INT8 모델만 커밋한다
+backend/models/*
+!backend/models/onnx-int8/
+# 하위 디렉터리까지 모두 제외한다 (frontend/.streamlit/secrets.toml 포함)
+**/.streamlit/secrets.toml
+.DS_Store
+
+# 보고서는 별도 제출물이므로 저장소에 올리지 않는다
+report/

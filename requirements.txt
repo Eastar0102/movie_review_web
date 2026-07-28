@@ -1,0 +1,19 @@
+# Streamlit Cloud 배포용 통합 의존성 (frontend + backend).
+# Streamlit Cloud는 저장소 루트의 requirements.txt만 읽으므로 두 쪽 의존성을 합쳐 둔다.
+# 로컬 개발은 frontend/requirements.txt, backend/requirements.txt를 각각 설치하면 된다.
+
+# --- frontend ---
+streamlit==1.41.1
+requests==2.32.3
+pandas==2.2.3
+
+# --- backend ---
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+sqlalchemy==2.0.36
+pydantic==2.10.4
+
+# --- 감성 분석 서빙 (ONNX INT8) ---
+# 모델이 저장소에 커밋돼 있어 런타임 다운로드가 없고, torch도 필요 없다.
+onnxruntime==1.23.2
+tokenizers==0.20.3
