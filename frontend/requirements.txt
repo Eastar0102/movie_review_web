@@ -1,3 +1,20 @@
+# Streamlit Cloud가 읽는 의존성 파일.
+# Cloud는 메인 모듈(frontend/streamlit_app.py)과 같은 폴더의 requirements.txt를 우선하므로
+# 프론트엔드뿐 아니라 인프로세스로 기동하는 백엔드(embedded_backend.py) 의존성도 함께 담는다.
+
+# --- frontend ---
 streamlit==1.41.1
 requests==2.32.3
 pandas==2.2.3
+
+# --- 인프로세스 백엔드 ---
+# 내부 통신 전용이라 uvicorn[standard]의 uvloop·httptools·websockets는 쓰지 않는다.
+fastapi==0.115.6
+uvicorn==0.34.0
+sqlalchemy==2.0.36
+pydantic==2.10.4
+
+# --- 감성 분석 서빙 (ONNX INT8) ---
+# 모델이 저장소에 커밋돼 있어 런타임 다운로드가 없고, torch도 필요 없다.
+onnxruntime==1.23.2
+tokenizers==0.20.3

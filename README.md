@@ -116,12 +116,17 @@ Streamlit은 HTTP로만 접근하므로 프론트/백엔드 분리 구조는 유
 
 ```
 저장소 루트
-├─ requirements.txt      ← Cloud가 읽는 통합 의존성 (frontend + backend)
-├─ .streamlit/config.toml ← Cloud가 읽는 테마 설정 (루트에 있어야 적용됨)
-├─ frontend/streamlit_app.py   ← Main file path
-├─ frontend/embedded_backend.py ← FastAPI 인프로세스 기동
-└─ backend/seed/movie.db  ← 데모용 시드 DB (영화 50 · 리뷰 500)
+├─ .streamlit/config.toml        ← Cloud가 읽는 테마 설정 (루트에 있어야 적용됨)
+├─ frontend/streamlit_app.py     ← Main file path
+├─ frontend/requirements.txt     ← Cloud가 읽는 의존성 (프론트 + 인프로세스 백엔드)
+├─ frontend/embedded_backend.py  ← FastAPI 인프로세스 기동
+├─ backend/models/onnx-int8/     ← INT8 감성 분석 모델 (14.2MB)
+└─ backend/seed/movie.db         ← 데모용 시드 DB (영화 50 · 리뷰 500)
 ```
+
+> Streamlit Cloud는 **메인 모듈과 같은 폴더의 `requirements.txt`를 우선**합니다(루트가 아닙니다).
+> 그래서 `frontend/requirements.txt`가 백엔드 서빙 의존성까지 함께 담고 있습니다.
+> 저장소에 requirements 파일이 여러 개면 어느 것이 쓰였는지 배포 로그에 경고로 표시됩니다.
 
 1. 저장소를 GitHub에 푸시합니다.
 2. [share.streamlit.io](https://share.streamlit.io) → **Create app** → 저장소·브랜치 선택
